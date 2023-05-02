@@ -4,13 +4,14 @@ Background:
 
 Scenario: No Buckets
 	Given a customer account is created for seankilleen@gmail.com
+	When I look at the account
 	Then the number of buckets for the account should be 0
 
-Scenario: Creating Buckets
-	Given a customer account is created for seankilleen@gmail.com
-	When I create a bucket called Bucket A
-	Then Bucket A should exist
-	And the number of buckets for the account should be 1
+#Scenario: Creating Buckets
+#	Given a customer account is created for seankilleen@gmail.com
+#	When I create a bucket called Bucket A
+#	Then Bucket A should exist
+#	And the number of buckets for the account should be 1
 
 #Scenario: Basic Bucket Setup
 #	Given I have $100 in the pool

@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Docker.DotNet;
+using Microsoft.Extensions.Logging;
 using TechTalk.SpecFlow;
-using TestContainers.Container.Abstractions.Hosting;
-using TestContainers.Container.Database.Hosting;
-using TestContainers.Container.Database.PostgreSql;
+using Testcontainers.PostgreSql;
 
 namespace BucketsOfMoney.Domain.Tests
 {
@@ -15,22 +14,30 @@ namespace BucketsOfMoney.Domain.Tests
         public const string Password = "testpw";
         public const string DatabaseName = "bucketsofmoney";
 
+        public static PostgreSqlContainer _postgreSqlContainer;
+
         [BeforeTestRun]
         public static void SetupTestContainer()
         {
             if (!ContainerHasBeenInitialized)
             {
                 ContainerHasBeenInitialized = true;
-                var container = new ContainerBuilder<PostgreSqlContainer>()
-                    .ConfigureDatabaseConfiguration("testuser", "testpw", "bucketsofmoney")
-                    .ConfigureLogging(builder =>
-                    {
-                        builder.AddConsole();
-                    })
-                    .Build();
 
-                container.StartAsync().Wait();
+                _postgreSqlContainer= new PostgreSqlBuilder()
+                    .WithUsername(Username)
+                    .WithPassword(Password)
+                    .WithDatabase(DatabaseName)
+                    .WithAutoRemove(true)
+                    .Build();
+                
+                _postgreSqlContainer.StartAsync().Wait();
             }
+        }
+
+        [AfterTestRun]
+        public static void AfterTestRun()
+        {
+            _postgreSqlContainer.StopAsync().Wait();
         }
     }
 }
