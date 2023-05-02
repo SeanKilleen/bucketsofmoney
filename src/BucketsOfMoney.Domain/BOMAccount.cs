@@ -12,13 +12,15 @@ namespace BucketsOfMoney.Domain
         }
         public async Task<Guid> CreateAccount(string accountName)
         {
-            await using var session = _documentStore.LightweightSession();
-            var guid = Guid.NewGuid();
-            var evt = new AccountCreated(accountName, guid.ToString());
-            session.Events.StartStream<BOMAccount>(guid, evt);
-            await session.SaveChangesAsync();
+            await using (var session = _documentStore.LightweightSession())
+            {
+                var guid = Guid.NewGuid();
+                var evt = new AccountCreated(accountName, guid.ToString());
+                session.Events.StartStream<BOMAccount>(guid, evt);
+                await session.SaveChangesAsync();
+                return guid;
+            }
 
-            return guid;
         }
 
         public async Task<BOMAccount> GetAccount(Guid accountGuid)

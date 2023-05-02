@@ -12,7 +12,7 @@ namespace BucketsOfMoney.Domain.Tests
 
         public Steps(Manager manager)
         {
-            manager = manager;
+            _manager = manager;
         }
 
         [Given(@"a customer account is created for (.*)")]
