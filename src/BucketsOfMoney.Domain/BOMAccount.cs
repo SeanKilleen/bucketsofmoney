@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿using System.Security.Cryptography;
+using Marten;
 
 namespace BucketsOfMoney.Domain
 {
@@ -31,10 +32,21 @@ namespace BucketsOfMoney.Domain
                 return aggregate;
             }
         }
+
+        public async Task CreateBucket(Guid accountGuid, string bucketName)
+        {
+            var evt = new BucketCreated(bucketName);
+
+            using (var session = _documentStore.LightweightSession())
+            {
+                session.Events.Append(accountGuid, evt);
+                await session.SaveChangesAsync();
+            }
+        }
     }
     public class Bucket
     {
-
+        public string Name { get; set; }
     }
 
     public class BOMAccount
@@ -49,6 +61,11 @@ namespace BucketsOfMoney.Domain
         public void Apply(AccountCreated evt)
         {
             Name = evt.AccountName;
+        }
+
+        public void Apply(BucketCreated evt)
+        {
+            this.Buckets.Add(new Bucket(){Name = evt.BucketName});
         }
 
     }

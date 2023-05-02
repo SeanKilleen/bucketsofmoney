@@ -27,6 +27,18 @@ namespace BucketsOfMoney.Domain.Tests
             _bomAccount = await _manager.GetAccount(_accountGuid);
         }
 
+        [When(@"I create a bucket called (.*)")]
+        public async Task WhenICreateABucketCalledBucketA(string bucketName)
+        {
+            await _manager.CreateBucket(_accountGuid, bucketName);
+        }
+
+        [Then(@"the bucket (.*) should exist")]
+        public void ThenTheBucketBucketAShouldExist(string expectedBucketName)
+        {
+            _bomAccount.Buckets.Should().Contain(bucket => bucket.Name == expectedBucketName);
+        }
+
         [Then(@"the account name should be (.*)")]
         public void ThenTheAccountNameShouldBe(string expectedAccountName)
         {
