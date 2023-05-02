@@ -80,7 +80,7 @@ namespace BucketsOfMoney.Domain.Tests
 #line 3
 #line hidden
 #line 4
- testRunner.Given("a customer account exists for Sean", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("a customer account exists for seankilleen@gmail.com", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
