@@ -27,6 +27,7 @@ namespace BucketsOfMoney.Domain.Tests
                     .WithUsername(Username)
                     .WithPassword(Password)
                     .WithDatabase(DatabaseName)
+                    .WithPortBinding(5432,5432)
                     .WithAutoRemove(true)
                     .Build();
                 

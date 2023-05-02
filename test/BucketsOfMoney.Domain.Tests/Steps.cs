@@ -27,6 +27,11 @@ namespace BucketsOfMoney.Domain.Tests
             _bomAccount = await _manager.GetAccount(_accountGuid);
         }
 
+        [Then(@"the account name should be (.*)")]
+        public void ThenTheAccountNameShouldBe(string expectedAccountName)
+        {
+            _bomAccount.Name.Should().Be(expectedAccountName);
+        }
 
         [Then(@"the number of buckets for the account should be (.*)")]
         public void ThenTheNumberOfBucketsForTheAccountShouldBe(int expectedBucketCount)
