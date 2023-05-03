@@ -1,4 +1,4 @@
-﻿Feature: Basic Buckets
+﻿Feature: Bucket Creation
 
 Background: 
 	Given a customer account is created for seankilleen@gmail.com
@@ -8,18 +8,18 @@ Scenario: No Buckets
 	Then the account name should be seankilleen@gmail.com
 		And the number of buckets for the account should be 0
 
-Scenario: Creating Buckets
+Scenario: Creating A Single Bucket
 	When I create a bucket called Bucket A
 		And I look at the account
 	Then the bucket Bucket A should exist
 		And the number of buckets for the account should be 1
 
-#Scenario: Basic Bucket Setup
-#	Given I have $100 in the pool
-#		And a bucket exists called Bucket A
-#		And a bucket exists called Bucket B
-#		And Bucket A has a 50% ingress rule
-#		And Bucket B has a 50% ingress rule
-#	When I empty the pool into the buckets
-#	Then Bucket A should have a total of $50
-#		And Bucket B should have a total of $50
+Scenario: Creating Multiple Buckets
+	When I create a bucket called Bucket A
+		And I create a bucket called Bucket B
+		And I create a bucket called Bucket C
+		And I look at the account
+	Then the number of buckets for the account should be 3
+		And the bucket Bucket A should exist
+		And the bucket Bucket B should exist
+		And the bucket Bucket C should exist

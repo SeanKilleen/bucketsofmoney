@@ -19,7 +19,7 @@ namespace BucketsOfMoney.Domain.Tests
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class BasicBucketsFeature : object, Xunit.IClassFixture<BasicBucketsFeature.FixtureData>, System.IDisposable
+    public partial class BucketCreationFeature : object, Xunit.IClassFixture<BucketCreationFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -31,7 +31,7 @@ namespace BucketsOfMoney.Domain.Tests
 #line 1 "BasicBuckets.feature"
 #line hidden
         
-        public BasicBucketsFeature(BasicBucketsFeature.FixtureData fixtureData, BucketsOfMoney_Domain_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public BucketCreationFeature(BucketCreationFeature.FixtureData fixtureData, BucketsOfMoney_Domain_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace BucketsOfMoney.Domain.Tests
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "", "Basic Buckets", null, ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "", "Bucket Creation", null, ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -90,7 +90,7 @@ namespace BucketsOfMoney.Domain.Tests
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="No Buckets")]
-        [Xunit.TraitAttribute("FeatureTitle", "Basic Buckets")]
+        [Xunit.TraitAttribute("FeatureTitle", "Bucket Creation")]
         [Xunit.TraitAttribute("Description", "No Buckets")]
         public void NoBuckets()
         {
@@ -123,14 +123,14 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Creating Buckets")]
-        [Xunit.TraitAttribute("FeatureTitle", "Basic Buckets")]
-        [Xunit.TraitAttribute("Description", "Creating Buckets")]
-        public void CreatingBuckets()
+        [Xunit.SkippableFactAttribute(DisplayName="Creating A Single Bucket")]
+        [Xunit.TraitAttribute("FeatureTitle", "Bucket Creation")]
+        [Xunit.TraitAttribute("Description", "Creating A Single Bucket")]
+        public void CreatingASingleBucket()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating Buckets", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating A Single Bucket", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -160,6 +160,55 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Creating Multiple Buckets")]
+        [Xunit.TraitAttribute("FeatureTitle", "Bucket Creation")]
+        [Xunit.TraitAttribute("Description", "Creating Multiple Buckets")]
+        public void CreatingMultipleBuckets()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating Multiple Buckets", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 17
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 18
+ testRunner.When("I create a bucket called Bucket A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 19
+  testRunner.And("I create a bucket called Bucket B", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 20
+  testRunner.And("I create a bucket called Bucket C", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 21
+  testRunner.And("I look at the account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 22
+ testRunner.Then("the number of buckets for the account should be 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 23
+  testRunner.And("the bucket Bucket A should exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 24
+  testRunner.And("the bucket Bucket B should exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+  testRunner.And("the bucket Bucket C should exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
@@ -167,12 +216,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                BasicBucketsFeature.FeatureSetup();
+                BucketCreationFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                BasicBucketsFeature.FeatureTearDown();
+                BucketCreationFeature.FeatureTearDown();
             }
         }
     }

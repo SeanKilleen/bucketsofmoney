@@ -15,6 +15,12 @@ namespace BucketsOfMoney.Domain.Tests
             _manager = manager;
         }
 
+        [Given(@"I have created a bucket called (.*)")]
+        public async Task GivenIHaveCreatedABucketCalled(string bucketName)
+        {
+            await WhenICreateABucketCalled(bucketName);
+        }
+
         [Given(@"a customer account is created for (.*)")]
         public async Task GivenACustomerAccountIsCreatedFor(string accountName)
         {
@@ -28,7 +34,7 @@ namespace BucketsOfMoney.Domain.Tests
         }
 
         [When(@"I create a bucket called (.*)")]
-        public async Task WhenICreateABucketCalledBucketA(string bucketName)
+        public async Task WhenICreateABucketCalled(string bucketName)
         {
             await _manager.CreateBucket(_accountGuid, bucketName);
         }
