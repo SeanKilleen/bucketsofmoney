@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using Marten;
+﻿using Marten;
 
 namespace BucketsOfMoney.Domain
 {
@@ -11,8 +10,10 @@ namespace BucketsOfMoney.Domain
         {
             _documentStore = documentStore;
         }
+
         public async Task<Guid> CreateAccount(string accountName)
         {
+            // TODO: Check to ensure account by that name doesn't exist?
             await using (var session = _documentStore.LightweightSession())
             {
                 var guid = Guid.NewGuid();
@@ -21,11 +22,11 @@ namespace BucketsOfMoney.Domain
                 await session.SaveChangesAsync();
                 return guid;
             }
-
         }
 
         public async Task<BOMAccount> GetAccount(Guid accountGuid)
         {
+            // TODO: Ensure exists
             await using (var session = _documentStore.LightweightSession())
             {
                 var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
@@ -35,6 +36,10 @@ namespace BucketsOfMoney.Domain
 
         public async Task CreateBucket(Guid accountGuid, string bucketName)
         {
+            // TODO: Ensure account exists
+            // TODO: Ensure bucket doesn't exist by that name
+            // TODO: Create Guid for bucket as well?
+
             var evt = new BucketCreated(bucketName);
 
             using (var session = _documentStore.LightweightSession())
