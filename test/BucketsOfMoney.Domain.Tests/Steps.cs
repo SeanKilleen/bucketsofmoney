@@ -59,7 +59,6 @@ namespace BucketsOfMoney.Domain.Tests
             bucket.Amount.Should().Be(expectedTotal);
         }
 
-
         [Then(@"the bucket (.*) should exist")]
         public void ThenTheBucketBucketAShouldExist(string expectedBucketName)
         {

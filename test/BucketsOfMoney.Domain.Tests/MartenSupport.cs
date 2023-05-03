@@ -1,7 +1,7 @@
 ﻿using BoDi;
 using Marten;
-using Org.BouncyCastle.Crypto.Fpe;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Infrastructure;
 using Weasel.Core;
 
 namespace BucketsOfMoney.Domain.Tests;
@@ -11,10 +11,12 @@ public class MartenSupport
 {
     private IDocumentStore _documentStore;
     private readonly IObjectContainer _objectContainer;
+    private readonly ISpecFlowOutputHelper _outputHelper;
 
-    public MartenSupport(IObjectContainer objectContainer)
+    public MartenSupport(IObjectContainer objectContainer, ISpecFlowOutputHelper outputHelper)
     {
         _objectContainer = objectContainer;
+        _outputHelper = outputHelper;
     }
 
     [BeforeScenario]
@@ -23,11 +25,14 @@ public class MartenSupport
         _documentStore = DocumentStore.For(_ =>
         {
             _.Connection($"host=localhost;database={TestContainerSupport.DatabaseName};password={TestContainerSupport.Password};username={TestContainerSupport.Username};Include Error Detail=true");
-            _.AutoCreateSchemaObjects = AutoCreate.All;
+
+            _.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+
             _.Events.AddEventType<AccountCreated>();
             _.Events.AddEventType<BucketCreated>();
+            _.Events.AddEventType<PoolFundsTransferredIntoBucket>();
         });
-
+        
         _objectContainer.RegisterInstanceAs(_documentStore);
     }
 
