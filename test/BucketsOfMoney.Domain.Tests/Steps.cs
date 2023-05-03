@@ -21,6 +21,13 @@ namespace BucketsOfMoney.Domain.Tests
             await WhenICreateABucketCalled(bucketName);
         }
 
+        [Given(@"I have added \$(.*) to the pool")]
+        public async Task GivenIHaveAddedToThePool(decimal amountToAdd)
+        {
+            await _manager.AddFundsToPool(_bomAccount.Id, amountToAdd);
+        }
+
+
         [Given(@"a customer account is created for (.*)")]
         public async Task GivenACustomerAccountIsCreatedFor(string accountName)
         {

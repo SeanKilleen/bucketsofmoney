@@ -89,6 +89,49 @@ namespace BucketsOfMoney.Domain.Tests
             this.TestTearDown();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Basic Bucket Splits")]
+        [Xunit.TraitAttribute("FeatureTitle", "Basic Bucket Distribution")]
+        [Xunit.TraitAttribute("Description", "Basic Bucket Splits")]
+        public void BasicBucketSplits()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Basic Bucket Splits", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 6
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 7
+ testRunner.Given("I have created a bucket called Bucket A", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 8
+  testRunner.And("I have created a bucket called Bucket B", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
+  testRunner.And("I have added $100 to the pool", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 10
+ testRunner.When("I empty the pool into the buckets", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 11
+ testRunner.Then("Bucket A should have a total of $50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 12
+  testRunner.And("Bucket B should have a total of $50", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
