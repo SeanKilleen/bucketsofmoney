@@ -1,15 +1,14 @@
 ﻿Feature: Basic Buckets
 
 Background: 
+	Given a customer account is created for seankilleen@gmail.com
 
 Scenario: No Buckets
-	Given a customer account is created for seankilleen@gmail.com
 	When I look at the account
 	Then the account name should be seankilleen@gmail.com
 		And the number of buckets for the account should be 0
 
 Scenario: Creating Buckets
-	Given a customer account is created for seankilleen@gmail.com
 	When I create a bucket called Bucket A
 		And I look at the account
 	Then the bucket Bucket A should exist
