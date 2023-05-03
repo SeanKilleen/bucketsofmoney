@@ -1,4 +1,5 @@
 ﻿using Marten;
+using Microsoft.CodeAnalysis.VisualBasic;
 
 namespace BucketsOfMoney.Domain;
 
@@ -57,5 +58,27 @@ public class Manager
             session.Events.Append(accountGuid, evt);
             await session.SaveChangesAsync();
         }
+    }
+
+    public async Task EmptyPool(Guid accountGuid)
+    {
+        var account = await GetAccount(accountGuid);
+
+        // TODO: Test to ensure there are actually funds to empty
+
+        var bucketCount = account.Buckets.Count;
+
+        var fundForEachBucket = account.PoolAmount / bucketCount;
+
+        using (var session = _documentStore.LightweightSession())
+        {
+            foreach (var bucket in account.Buckets)
+            {
+                var evt = new PoolFundsTransferredIntoBucket(bucket.Name, fundForEachBucket);
+                session.Events.Append(accountGuid, evt);
+            }
+            await session.SaveChangesAsync();
+        }
+
     }
 }

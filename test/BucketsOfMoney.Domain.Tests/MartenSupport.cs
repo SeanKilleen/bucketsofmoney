@@ -22,7 +22,7 @@ public class MartenSupport
     {
         _documentStore = DocumentStore.For(_ =>
         {
-            _.Connection($"host=localhost;database={TestContainerSupport.DatabaseName};password={TestContainerSupport.Password};username={TestContainerSupport.Username}");
+            _.Connection($"host=localhost;database={TestContainerSupport.DatabaseName};password={TestContainerSupport.Password};username={TestContainerSupport.Username};Include Error Detail=true");
             _.AutoCreateSchemaObjects = AutoCreate.All;
             _.Events.AddEventType<AccountCreated>();
             _.Events.AddEventType<BucketCreated>();
@@ -34,6 +34,6 @@ public class MartenSupport
     [AfterScenario()]
     public async Task AfterScenario()
     {
-        await _documentStore.Advanced.Clean.CompletelyRemoveAllAsync();
+        await _documentStore.Advanced.Clean.DeleteAllEventDataAsync();
     }
 }

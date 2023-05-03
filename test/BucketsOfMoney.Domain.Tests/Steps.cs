@@ -46,6 +46,20 @@ namespace BucketsOfMoney.Domain.Tests
             await _manager.CreateBucket(_accountGuid, bucketName);
         }
 
+        [When(@"I empty the pool into the buckets")]
+        public async Task WhenIEmptyThePoolIntoTheBuckets()
+        {
+            await _manager.EmptyPool(_accountGuid);
+        }
+
+        [Then(@"(.*) should have a total of \$(.*)")]
+        public void ThenBucketShouldHaveATotalOf(string bucketName, decimal expectedTotal)
+        {
+            var bucket = _bomAccount.Buckets.Single(x => x.Name == bucketName);
+            bucket.Amount.Should().Be(expectedTotal);
+        }
+
+
         [Then(@"the bucket (.*) should exist")]
         public void ThenTheBucketBucketAShouldExist(string expectedBucketName)
         {
