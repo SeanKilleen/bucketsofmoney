@@ -28,7 +28,7 @@ namespace BucketsOfMoney.Domain.Tests
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "Feature1.feature"
+#line 1 "BasicBuckets.feature"
 #line hidden
         
         public BasicBucketsFeature(BasicBucketsFeature.FixtureData fixtureData, BucketsOfMoney_Domain_Tests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
