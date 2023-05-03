@@ -27,6 +27,12 @@ namespace BucketsOfMoney.Domain.Tests
             await _manager.AddFundsToPool(_accountGuid, amountToAdd);
         }
 
+        [Given(@"(.*) has a ceiling of \$(.*)")]
+        public async Task GivenBucketHasACeiling(string bucketName, decimal ceilingAmount)
+        {
+            await _manager.SetBucketCeiling(_accountGuid, bucketName, ceilingAmount);
+        }
+
 
         [Given(@"a customer account is created for (.*)")]
         public async Task GivenACustomerAccountIsCreatedFor(string accountName)
@@ -76,5 +82,12 @@ namespace BucketsOfMoney.Domain.Tests
         {
             _bomAccount.Buckets.Count.Should().Be(expectedBucketCount);
         }
+
+        [Then(@"The amount in the pool should be \$(.*)")]
+        public void ThenTheAmountInThePoolShouldBe(decimal expectedPoolAmount)
+        {
+            _bomAccount.PoolAmount.Should().Be(expectedPoolAmount);
+        }
+
     }
 }

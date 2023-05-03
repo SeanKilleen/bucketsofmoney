@@ -30,6 +30,8 @@ public class MartenSupport
 
             _.Events.AddEventType<AccountCreated>();
             _.Events.AddEventType<BucketCreated>();
+            _.Events.AddEventType<FundsAddedToPool>();
+            _.Events.AddEventType<BucketCeilingChanged>();
             _.Events.AddEventType<PoolFundsTransferredIntoBucket>();
         });
         

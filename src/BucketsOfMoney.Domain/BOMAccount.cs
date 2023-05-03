@@ -37,6 +37,7 @@ namespace BucketsOfMoney.Domain
         {
             var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);
             bucket.Amount += evt.Amount;
+            this.PoolAmount -= evt.Amount;
         }
     }
 }

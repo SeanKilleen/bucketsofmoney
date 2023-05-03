@@ -1,5 +1,6 @@
 ﻿using Marten;
 using Microsoft.CodeAnalysis.VisualBasic;
+using System.Security.Principal;
 
 namespace BucketsOfMoney.Domain;
 
@@ -80,5 +81,17 @@ public class Manager
             await session.SaveChangesAsync();
         }
 
+    }
+
+    public async Task SetBucketCeiling(Guid accountGuid, string bucketName, decimal ceilingAmount)
+    {
+        using (var session = _documentStore.LightweightSession())
+        {
+            var evt = new BucketCeilingChanged(bucketName, ceilingAmount);
+            
+            session.Events.Append(accountGuid, evt);
+            
+            await session.SaveChangesAsync();
+        }
     }
 }
