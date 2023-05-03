@@ -24,7 +24,7 @@ namespace BucketsOfMoney.Domain.Tests
         [Given(@"I have added \$(.*) to the pool")]
         public async Task GivenIHaveAddedToThePool(decimal amountToAdd)
         {
-            await _manager.AddFundsToPool(_bomAccount.Id, amountToAdd);
+            await _manager.AddFundsToPool(_accountGuid, amountToAdd);
         }
 
 
