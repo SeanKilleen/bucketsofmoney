@@ -6,7 +6,7 @@ namespace BucketsOfMoney.Domain
     {
         public string Name { get; set; }
         public decimal Amount { get; set; }
-        public decimal CeilingAmount { get; set; }
+        public decimal CeilingAmount { get; set; } = decimal.MaxValue;
     }
 
     public class BOMAccount
