@@ -72,3 +72,17 @@ Scenario: Multiple Ceilings
 		And Bucket C should have a total of $85
 		And Bucket D should have a total of $85
 		And The amount in the pool should be $0.00
+
+Scenario: Multiple Rounds of Adding
+	Given I have created a bucket called Trip
+		And I have created a bucket called Home Repairs
+		And I have created a bucket called Emergency Fund
+		And Trip has a ceiling of $1000
+		And I have added $1000 to the pool
+		And I have emptied the pool into the buckets
+		And I have added $3000 to the pool
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Trip should have a total of $1000
+		And Home Repairs should have a total of $1500
+		And Emergency Fund should have a total of $1500

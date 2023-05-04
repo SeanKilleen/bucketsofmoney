@@ -40,6 +40,12 @@ namespace BucketsOfMoney.Domain.Tests
             _accountGuid = await _manager.CreateAccount(accountName);
         }
 
+        [Given(@"I have emptied the pool into the buckets")]
+        public async Task GivenIHaveEmptiedThePoolIntoTheBuckets()
+        {
+            await _manager.EmptyPool(_accountGuid);
+        }
+
         [When(@"I look at the account")]
         public async Task WhenILookAtTheAccount()
         {
