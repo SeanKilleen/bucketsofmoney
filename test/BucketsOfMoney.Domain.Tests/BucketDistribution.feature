@@ -12,7 +12,7 @@ Scenario: Halvsies
 	Then Bucket A should have a total of $50
 		And Bucket B should have a total of $50
 
-Scenario: Thirds
+Scenario: Thirds leaves a penny left over
 	Given I have created a bucket called Bucket A
 		And I have created a bucket called Bucket B
 		And I have created a bucket called Bucket C
@@ -22,6 +22,29 @@ Scenario: Thirds
 	Then Bucket A should have a total of $33.33
 		And Bucket B should have a total of $33.33
 		And Bucket C should have a total of $33.33
+		And The amount in the pool should be $0.01
+
+Scenario: One Penny doesn't get split between buckets
+
+	Given I have created a bucket called Bucket A
+		And I have created a bucket called Bucket B
+		And I have added $0.01 to the pool
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Bucket A should have a total of $0.00
+		And Bucket B should have a total of $0.00
+		And The amount in the pool should be $0.01
+
+Scenario: Half a Cent doesn't get split 
+
+	Given I have created a bucket called Bucket A
+		And I have created a bucket called Bucket B
+		And I have added $0.03 to the pool
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Bucket A should have a total of $0.01
+		And Bucket B should have a total of $0.01
+		And The amount in the pool should be $0.01
 
 Scenario: Ceiling on Buckets
 	Given I have created a bucket called Bucket A

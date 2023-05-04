@@ -1,6 +1,4 @@
 ﻿using Marten;
-using Microsoft.CodeAnalysis.VisualBasic;
-using System.Security.Principal;
 
 namespace BucketsOfMoney.Domain;
 
@@ -74,11 +72,11 @@ public class Manager
             session.Events.Append(accountGuid, new PoolEmptied());
 
             var bucketsRemaining = account.Buckets.Count;
-            var fundForEachBucket = account.PoolAmount / bucketsRemaining;
+            var fundForEachBucket = Math.Round(account.PoolAmount / bucketsRemaining, 2);
             foreach (var bucket in account.Buckets)
             {
                 bucketsRemaining--;
-                var amountRemainingBeforeCeiling = bucket.CeilingAmount - bucket.Amount;
+                var amountRemainingBeforeCeiling = Math.Round(bucket.CeilingAmount - bucket.Amount,2);
 
                 if (amountRemainingBeforeCeiling >= fundForEachBucket)
                 {
@@ -92,12 +90,11 @@ public class Manager
                 session.Events.Append(accountGuid, transferToMeetCeiling);
 
                 unaccountedPoolAmount -= amountRemainingBeforeCeiling;
-                fundForEachBucket = unaccountedPoolAmount / bucketsRemaining;
+                fundForEachBucket = Math.Round(unaccountedPoolAmount / bucketsRemaining, 2);
 
             }
             await session.SaveChangesAsync();
         }
-
     }
 
     public async Task SetBucketCeiling(Guid accountGuid, string bucketName, decimal ceilingAmount)
