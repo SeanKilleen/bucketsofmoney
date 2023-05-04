@@ -86,3 +86,11 @@ Scenario: Multiple Rounds of Adding
 	Then Trip should have a total of $1000
 		And Home Repairs should have a total of $1500
 		And Emergency Fund should have a total of $1500
+
+
+# TODO: Set percentages at bucket level
+# TODO: Buckets without percentage set receive split percentage of remainder of 1000
+# TODO: Can't set a bucket percentage if it would send the total over 100 percent
+# TODO: If 0% is leftover for buckets, those other accounts don't grow 
+# TODO: Set specific dollar amount on a given bucket
+# TODO: Re-arrange bucket order and process rules in order of bucket
