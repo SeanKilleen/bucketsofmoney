@@ -72,11 +72,11 @@ public class Manager
             session.Events.Append(accountGuid, new PoolEmptied());
 
             var bucketsRemaining = account.Buckets.Count;
-            var fundForEachBucket = Math.Round(account.PoolAmount / bucketsRemaining, 2, MidpointRounding.ToZero);
+            var fundForEachBucket = (account.PoolAmount / bucketsRemaining).MoneyRounded();
             foreach (var bucket in account.Buckets)
             {
                 bucketsRemaining--;
-                var amountRemainingBeforeCeiling = Math.Round(bucket.CeilingAmount - bucket.Amount,2, MidpointRounding.ToZero);
+                var amountRemainingBeforeCeiling = (bucket.CeilingAmount - bucket.Amount).MoneyRounded();
 
                 if (amountRemainingBeforeCeiling >= fundForEachBucket)
                 {
@@ -90,7 +90,7 @@ public class Manager
                 session.Events.Append(accountGuid, transferToMeetCeiling);
 
                 unaccountedPoolAmount -= amountRemainingBeforeCeiling;
-                fundForEachBucket = Math.Round(unaccountedPoolAmount / bucketsRemaining, 2, MidpointRounding.ToZero);
+                fundForEachBucket = (unaccountedPoolAmount / bucketsRemaining).MoneyRounded();
 
             }
             await session.SaveChangesAsync();
