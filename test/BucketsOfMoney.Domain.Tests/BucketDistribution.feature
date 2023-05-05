@@ -88,7 +88,18 @@ Scenario: Multiple Rounds of Adding
 		And Emergency Fund should have a total of $1500
 
 
-# TODO: Set percentages at bucket level
+Scenario: Set percentages at bucket level
+	Given I have created a bucket called Trip
+		And I have created a bucket called Home Repairs
+		And I have created a bucket called Emergency Fund
+		And Trip has a percentage ingress strategy of .10
+		And I have added $100 to the pool
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Trip should have a total of $10
+		And Home Repairs should have a total of $45
+		And Emergency Fund should have a total of $45
+
 # TODO: Buckets without percentage set receive split percentage of remainder of 1000
 # TODO: Can't set a bucket percentage if it would send the total over 100 percent
 # TODO: If 0% is leftover for buckets, those other accounts don't grow 

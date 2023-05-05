@@ -7,6 +7,7 @@ namespace BucketsOfMoney.Domain
         public string Name { get; set; }
         public decimal Amount { get; set; }
         public decimal CeilingAmount { get; set; } = decimal.MaxValue;
+        public IngressStrategy? IngressStrategy { get; set; } = null;
     }
 
     public class BOMAccount
@@ -45,7 +46,12 @@ namespace BucketsOfMoney.Domain
         {
             var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);
             bucket.CeilingAmount = evt.CeilingAmount;
+        }
 
+        public void Apply(BucketIngressStrategyChangedToPercentStrategy evt)
+        {
+            var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);
+            bucket.IngressStrategy = new IngressStrategy(IngressEgressStrategyType.Percentage, evt.Percentage);
         }
     }
 }

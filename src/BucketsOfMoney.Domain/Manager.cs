@@ -71,18 +71,18 @@ public class Manager
         {
             session.Events.Append(accountGuid, new PoolEmptied());
 
-            var bucketsRemaining = account.Buckets.Count;
-            var fundForEachBucket = (account.PoolAmount / bucketsRemaining).MoneyRounded();
+           
+            DetermineBucketPercentages(account.Buckets);
+            
             foreach (var bucket in account.Buckets)
             {
-                bucketsRemaining--;
+                var bucketFund = (unaccountedPoolAmount * bucket.IngressStrategy.Value).MoneyRounded();
                 var amountRemainingBeforeCeiling = (bucket.CeilingAmount - bucket.Amount).MoneyRounded();
-
-                if (amountRemainingBeforeCeiling >= fundForEachBucket)
+                if (amountRemainingBeforeCeiling >= bucketFund)
                 {
-                    var standardTransfer = new PoolFundsTransferredIntoBucket(bucket.Name, fundForEachBucket);
+                    var standardTransfer = new PoolFundsTransferredIntoBucket(bucket.Name, bucketFund);
                     session.Events.Append(accountGuid, standardTransfer);
-                    unaccountedPoolAmount -= fundForEachBucket;
+                    unaccountedPoolAmount -= bucketFund;
                     continue;
                 }
 
@@ -90,10 +90,34 @@ public class Manager
                 session.Events.Append(accountGuid, transferToMeetCeiling);
 
                 unaccountedPoolAmount -= amountRemainingBeforeCeiling;
-                fundForEachBucket = (unaccountedPoolAmount / bucketsRemaining).MoneyRounded();
-
             }
             await session.SaveChangesAsync();
+        }
+    }
+
+    private void DetermineBucketPercentages(List<Bucket> accountBuckets)
+    {
+        var totalDefinedBucketPercentages = accountBuckets
+            .Where(x => x.IngressStrategy is not null && x.IngressStrategy?.Strategy == IngressEgressStrategyType.Percentage).ToList()
+            .Sum(x => x.IngressStrategy!.Value);
+
+        var remainingPercentages = 1m - totalDefinedBucketPercentages;
+
+        if (remainingPercentages <= 0)
+        {
+            return;
+        }
+
+        var numberOfBucketsWithoutAssignedPercentages = accountBuckets.Count(x => x.IngressStrategy is null);
+
+        var percentToAssign = remainingPercentages / numberOfBucketsWithoutAssignedPercentages;
+
+        foreach (var bucket in accountBuckets)
+        {
+            if (bucket.IngressStrategy is null)
+            {
+                bucket.IngressStrategy = new IngressStrategy(IngressEgressStrategyType.Percentage, percentToAssign);
+            }
         }
     }
 
@@ -105,6 +129,19 @@ public class Manager
             
             session.Events.Append(accountGuid, evt);
             
+            await session.SaveChangesAsync();
+        }
+    }
+
+    public async Task SetBucketPercentageIngressStrategy(Guid accountGuid, string bucketName, decimal percentageIngressStrategy)
+    {
+        // TODO: Ensure bucket exists
+        using (var session = _documentStore.LightweightSession())
+        {
+            var evt = new BucketIngressStrategyChangedToPercentStrategy(bucketName, percentageIngressStrategy);
+
+            session.Events.Append(accountGuid, evt);
+
             await session.SaveChangesAsync();
         }
     }

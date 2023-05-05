@@ -21,6 +21,13 @@ namespace BucketsOfMoney.Domain.Tests
             await WhenICreateABucketCalled(bucketName);
         }
 
+        [Given(@"(.*) has a percentage ingress strategy of (.*)")]
+        public async Task GivenTripHasAPercentageIngressStrategyOf(string bucketName, decimal percentageIngressStrategy)
+        {
+            await _manager.SetBucketPercentageIngressStrategy(_accountGuid, bucketName, percentageIngressStrategy);
+        }
+
+
         [Given(@"I have added \$(.*) to the pool")]
         public async Task GivenIHaveAddedToThePool(decimal amountToAdd)
         {
