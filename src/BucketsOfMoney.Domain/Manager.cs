@@ -65,7 +65,7 @@ public class Manager
 
         // TODO: Test to ensure there are actually funds to empty
 
-        var unaccountedPoolAmount = account.PoolAmount;
+        var unaccountedPoolAmount = 0m;
 
         using (var session = _documentStore.LightweightSession())
         {
@@ -76,20 +76,19 @@ public class Manager
             
             foreach (var bucket in account.Buckets)
             {
-                var bucketFund = (unaccountedPoolAmount * bucket.IngressStrategy.Value).MoneyRounded();
+                var bucketFund = ((account.PoolAmount + unaccountedPoolAmount) * bucket.IngressStrategy.Value).MoneyRounded();
                 var amountRemainingBeforeCeiling = (bucket.CeilingAmount - bucket.Amount).MoneyRounded();
                 if (amountRemainingBeforeCeiling >= bucketFund)
                 {
                     var standardTransfer = new PoolFundsTransferredIntoBucket(bucket.Name, bucketFund);
                     session.Events.Append(accountGuid, standardTransfer);
-                    unaccountedPoolAmount -= bucketFund;
                     continue;
                 }
 
                 var transferToMeetCeiling = new PoolFundsTransferredIntoBucket(bucket.Name, amountRemainingBeforeCeiling);
                 session.Events.Append(accountGuid, transferToMeetCeiling);
 
-                unaccountedPoolAmount -= amountRemainingBeforeCeiling;
+                unaccountedPoolAmount += amountRemainingBeforeCeiling;
             }
             await session.SaveChangesAsync();
         }

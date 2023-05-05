@@ -54,8 +54,10 @@ Scenario: Ceiling on Buckets
 	When I empty the pool into the buckets
 		And I look at the account
 	Then Bucket A should have a total of $50
-		And Bucket B should have a total of $150
-		And The amount in the pool should be $0.00
+		# 200 + 50 leftover = 250, 50% of that (assumed because there are two buckets and no percentage set) is $125
+		And Bucket B should have a total of $125
+		# Which leaves $25 left in the pool
+		And The amount in the pool should be $25
 
 Scenario: Multiple Ceilings
 	Given I have added $200 to the pool
@@ -105,3 +107,6 @@ Scenario: Set percentages at bucket level
 # TODO: If 0% is leftover for buckets, those other accounts don't grow 
 # TODO: Set specific dollar amount on a given bucket
 # TODO: Re-arrange bucket order and process rules in order of bucket
+# TODO: By Default, remaining pool funds go to last bucket
+# TODO: Can set which bucket receives remaining pool funds
+	# TODO: Remaining funds bucket can't have a ceiling? (Or, goes back to pool?)
