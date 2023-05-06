@@ -80,7 +80,6 @@ Scenario: Multiple Rounds of Adding
 		And Trip has a ceiling of $1000
 		And I have added $1000 to the pool
 		And I have emptied the pool into the buckets
-		# Each bucket now has 333.33
 		And I have added $3000 to the pool
 	When I empty the pool into the buckets
 		And I look at the account
@@ -95,6 +94,7 @@ Scenario: Set percentages at bucket level
 		And I have created a bucket called Home Repairs
 		And I have created a bucket called Emergency Fund
 		And Trip has a percentage ingress strategy of .10
+		# (so the other buckets split 90%, or 45% each)
 		And I have added $100 to the pool
 	When I empty the pool into the buckets
 		And I look at the account
@@ -103,7 +103,6 @@ Scenario: Set percentages at bucket level
 		And Emergency Fund should have a total of $45.00
 		And The amount in the pool should be $0
 
-# TODO: Buckets without percentage set receive split percentage of remainder of 1000
 # TODO: Can't set a bucket percentage if it would send the total over 100 percent
 # TODO: If 0% is leftover for buckets, those other accounts don't grow 
 # TODO: Set specific dollar amount on a given bucket
