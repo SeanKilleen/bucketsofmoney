@@ -130,6 +130,11 @@ public class Manager
 
     public async Task SetBucketPercentageIngressStrategy(Guid accountGuid, string bucketName, decimal proposedPercentage)
     {
+        if (proposedPercentage < 0)
+        {
+            throw new Exception("can't set an ingress strategy below 0%");
+        }
+
         // TODO: Ensure bucket exists
         using (var session = _documentStore.LightweightSession())
         {

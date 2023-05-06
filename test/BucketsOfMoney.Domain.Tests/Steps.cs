@@ -132,6 +132,13 @@ namespace BucketsOfMoney.Domain.Tests
             _exception.Message.Should().ContainEquivalentOf("Would exceed 100%"); 
         }
 
+        [Then(@"the error should indicate I can't set an ingress strategy below 0%")]
+        public void ThenTheErrorShouldIndicateICantSetAnIngressStrategyBelowZeroPercent()
+        {
+            _exception.Message.Should().ContainEquivalentOf("can't set an ingress strategy below 0%");
+        }
+
+
         [Then(@"The amount in the pool should be \$(.*)")]
         public void ThenTheAmountInThePoolShouldBe(decimal expectedPoolAmount)
         {

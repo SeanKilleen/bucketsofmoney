@@ -110,6 +110,20 @@ Scenario: Can't set a bucket percentage if it would send the total over 100 perc
 	Then an exception should be thrown
 		And the error should indicate I would exceed 100%
 
+Scenario: Can't set an ingress to less than zero
+	Given I have created a bucket called Trip
+	When I attempt to set the Trip ingress strategy to a percentage of -.01
+	Then an exception should be thrown
+		And the error should indicate I can't set an ingress strategy below 0%
+
+Scenario: Can't set an ingress to less than zero (multiple buckets)
+	Given I have created a bucket called Bucket A
+		And I have created a bucket called Bucket B
+		And Bucket A has a percentage ingress strategy of .5
+	When I attempt to set the Bucket B ingress strategy to a percentage of -.01
+	Then an exception should be thrown
+		And the error should indicate I can't set an ingress strategy below 0%
+
 # TODO: If 0% is leftover for buckets, those other accounts don't grow 
 # TODO: Set specific dollar amount on a given bucket
 # TODO: Re-arrange bucket order and process rules in order of bucket
