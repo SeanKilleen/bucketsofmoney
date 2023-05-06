@@ -54,10 +54,8 @@ Scenario: Ceiling on Buckets
 	When I empty the pool into the buckets
 		And I look at the account
 	Then Bucket A should have a total of $50
-		# 200 + 50 leftover = 250, 50% of that (assumed because there are two buckets and no percentage set) is $125
-		And Bucket B should have a total of $125
-		# Which leaves $25 left in the pool
-		And The amount in the pool should be $25
+		And Bucket B should have a total of $100
+		And The amount in the pool should be $50
 
 Scenario: Multiple Ceilings
 	Given I have added $200 to the pool
@@ -71,9 +69,9 @@ Scenario: Multiple Ceilings
 		And I look at the account
 	Then Bucket A should have a total of $10
 		And Bucket B should have a total of $20
-		And Bucket C should have a total of $85
-		And Bucket D should have a total of $85
-		And The amount in the pool should be $0.00
+		And Bucket C should have a total of $50
+		And Bucket D should have a total of $50
+		And The amount in the pool should be $70
 
 Scenario: Multiple Rounds of Adding
 	Given I have created a bucket called Trip
@@ -82,12 +80,14 @@ Scenario: Multiple Rounds of Adding
 		And Trip has a ceiling of $1000
 		And I have added $1000 to the pool
 		And I have emptied the pool into the buckets
+		# Each bucket now has 333.33
 		And I have added $3000 to the pool
 	When I empty the pool into the buckets
 		And I look at the account
 	Then Trip should have a total of $1000
-		And Home Repairs should have a total of $1500
-		And Emergency Fund should have a total of $1500
+		And Home Repairs should have a total of $1333.33
+		And Emergency Fund should have a total of $1333.33
+		And The amount in the pool should be $333.34
 
 
 Scenario: Set percentages at bucket level
@@ -99,8 +99,9 @@ Scenario: Set percentages at bucket level
 	When I empty the pool into the buckets
 		And I look at the account
 	Then Trip should have a total of $10
-		And Home Repairs should have a total of $45
-		And Emergency Fund should have a total of $45
+		And Home Repairs should have a total of $45.00
+		And Emergency Fund should have a total of $45.00
+		And The amount in the pool should be $0
 
 # TODO: Buckets without percentage set receive split percentage of remainder of 1000
 # TODO: Can't set a bucket percentage if it would send the total over 100 percent
