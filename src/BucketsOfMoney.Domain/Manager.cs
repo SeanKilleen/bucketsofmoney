@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿using System.ComponentModel.DataAnnotations;
+using Marten;
 
 namespace BucketsOfMoney.Domain;
 
@@ -127,12 +128,26 @@ public class Manager
         }
     }
 
-    public async Task SetBucketPercentageIngressStrategy(Guid accountGuid, string bucketName, decimal percentageIngressStrategy)
+    public async Task SetBucketPercentageIngressStrategy(Guid accountGuid, string bucketName, decimal proposedPercentage)
     {
         // TODO: Ensure bucket exists
         using (var session = _documentStore.LightweightSession())
         {
-            var evt = new BucketIngressStrategyChangedToPercentStrategy(bucketName, percentageIngressStrategy);
+            var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+            var bucket = aggregate.Buckets.Single(x => x.Name == bucketName);
+
+            bucket.IngressStrategy = new IngressStrategy(IngressEgressStrategyType.Percentage, proposedPercentage);
+
+            var sumOfIngressPercentages = aggregate.Buckets.Where(x =>
+                    x.IngressStrategy is not null && x.IngressStrategy.Strategy == IngressEgressStrategyType.Percentage)
+                .Sum(x => x.IngressStrategy!.Value);
+
+            if (sumOfIngressPercentages > 1)
+            {
+                throw new Exception("Operation aborted; percentages would exceed 100%");
+            }
+
+            var evt = new BucketIngressStrategyChangedToPercentStrategy(bucketName, proposedPercentage);
 
             session.Events.Append(accountGuid, evt);
 

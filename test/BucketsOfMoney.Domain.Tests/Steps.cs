@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Infrastructure;
+using Xunit.Sdk;
 
 namespace BucketsOfMoney.Domain.Tests
 {
@@ -7,12 +9,15 @@ namespace BucketsOfMoney.Domain.Tests
     public class Steps
     {
         private readonly Manager _manager;
+        private readonly ISpecFlowOutputHelper _outputHelper;
         private Guid _accountGuid;
         private BOMAccount _bomAccount;
+        private Exception _exception;
 
-        public Steps(Manager manager)
+        public Steps(Manager manager, ISpecFlowOutputHelper outputHelper)
         {
             _manager = manager;
+            _outputHelper = outputHelper;
         }
 
         [Given(@"I have created a bucket called (.*)")]
@@ -65,6 +70,25 @@ namespace BucketsOfMoney.Domain.Tests
             await _manager.CreateBucket(_accountGuid, bucketName);
         }
 
+        [When(@"I attempt to set the (.*) ingress strategy to a percentage of (.*)")]
+        public async Task WhenIAttemptToSetTheIngressStrategyToAPercentageOf(string bucketName, decimal percentage)
+        {
+            try
+            {
+                await _manager.SetBucketPercentageIngressStrategy(_accountGuid, bucketName, percentage);
+            }
+            catch (Exception ex)
+            {
+                CaptureException(ex);
+            }
+        }
+
+        private void CaptureException(Exception ex)
+        {
+            _outputHelper.WriteLine($"EXCEPTION: {ex.Message}. InnerException: {ex.InnerException?.Message}");
+            _exception = ex;
+        }
+
         [When(@"I empty the pool into the buckets")]
         public async Task WhenIEmptyThePoolIntoTheBuckets()
         {
@@ -94,6 +118,18 @@ namespace BucketsOfMoney.Domain.Tests
         public void ThenTheNumberOfBucketsForTheAccountShouldBe(int expectedBucketCount)
         {
             _bomAccount.Buckets.Count.Should().Be(expectedBucketCount);
+        }
+
+        [Then(@"an exception should be thrown")]
+        public void ThenAnExceptionShouldBeThrown()
+        {
+            _exception.Should().NotBeNull();
+        }
+
+        [Then(@"the error should indicate I would exceed 100%")]
+        public void ThenTheErrorShouldIndicateIWouldExceed100Percent()
+        {
+            _exception.Message.Should().ContainEquivalentOf("Would exceed 100%"); 
         }
 
         [Then(@"The amount in the pool should be \$(.*)")]
