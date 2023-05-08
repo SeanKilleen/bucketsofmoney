@@ -198,7 +198,15 @@ Scenario: Removing a Bucket
 		And the bucket C should exist
 		And the bucket B should not exist
 
-# TODO: Removing a bucket moves its funds back to the pool
+Scenario: Removing a bucket moves its funds back to the pool
+	Given I have created a bucket called A
+		And I have created a bucket called B
+		And I have added $30 to the pool
+		And I have emptied the pool into the buckets
+	When I remove bucket B
+		And I look at the account
+	Then The amount in the pool should be $15
+
 # TODO: Transfer between buckets
 # TODO: Transfer back to pool
 

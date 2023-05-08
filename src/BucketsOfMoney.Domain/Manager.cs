@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Marten;
+using Marten.Linq.SoftDeletes;
 
 namespace BucketsOfMoney.Domain;
 
@@ -194,7 +195,9 @@ public class Manager
             // TODO: Ensure aggregate exists
             // TODO: Check that bucket exists to remove
             var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+            var bucketBalance = aggregate.Buckets.Single(x => x.Name == bucketToRemove).Amount;
 
+            session.Events.Append(accountGuid, new BucketFundsTransferredIntoPool(bucketToRemove, bucketBalance));
             session.Events.Append(accountGuid, new BucketRemoved(bucketToRemove));
             
             await session.SaveChangesAsync();

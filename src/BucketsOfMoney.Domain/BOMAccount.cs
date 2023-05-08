@@ -54,6 +54,14 @@ namespace BucketsOfMoney.Domain
             this.PoolAmount -= evt.Amount;
         }
 
+        public void Apply(BucketFundsTransferredIntoPool evt)
+        {
+            var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);
+
+            bucket.Amount -= evt.Amount;
+            this.PoolAmount += evt.Amount;
+        }
+
         public void Apply(BucketCeilingChanged evt)
         {
             var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);
