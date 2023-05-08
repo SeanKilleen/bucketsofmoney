@@ -150,7 +150,7 @@ Scenario: Account Balance When Funds include Pool and Buckets
 		And The amount in the pool should be $50
 		And the account balance should be $200
 
-Scenario: New account balance with no transactions increases pool to that amount
+Scenario: New account balance with no transactions sets pool to that new balance
 	Given I have added $<previousPoolAmount> to the pool
 	When I update my account balance to $<newAccountBalance>
 		And I look at the account

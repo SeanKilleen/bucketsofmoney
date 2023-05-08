@@ -170,9 +170,9 @@ public class Manager
             var existingBalance = aggregate.Balance;
             var newBalance = newAccountBalance;
 
-            var balanceDifference = newBalance - existingBalance;
+            var balanceDifference = Math.Abs(newBalance - existingBalance);
 
-            if (balanceDifference >= 0)
+            if (newBalance - existingBalance >= 0)
             {
                 session.Events.Append(accountGuid, new FundsAddedToPool(balanceDifference));
             }

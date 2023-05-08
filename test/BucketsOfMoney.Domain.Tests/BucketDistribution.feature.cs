@@ -770,7 +770,7 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("New account balance with no transactions increases pool to that amount")]
+        [NUnit.Framework.DescriptionAttribute("New account balance with no transactions sets pool to that new balance")]
         [NUnit.Framework.TestCaseAttribute("-1", "0", null)]
         [NUnit.Framework.TestCaseAttribute("-1", "100", null)]
         [NUnit.Framework.TestCaseAttribute("-1", "-5", null)]
@@ -780,13 +780,13 @@ this.FeatureBackground();
         [NUnit.Framework.TestCaseAttribute("1", "0", null)]
         [NUnit.Framework.TestCaseAttribute("1", "100", null)]
         [NUnit.Framework.TestCaseAttribute("1", "-5", null)]
-        public void NewAccountBalanceWithNoTransactionsIncreasesPoolToThatAmount(string previousPoolAmount, string newAccountBalance, string[] exampleTags)
+        public void NewAccountBalanceWithNoTransactionsSetsPoolToThatNewBalance(string previousPoolAmount, string newAccountBalance, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("previousPoolAmount", previousPoolAmount);
             argumentsOfScenario.Add("newAccountBalance", newAccountBalance);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New account balance with no transactions increases pool to that amount", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New account balance with no transactions sets pool to that new balance", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 153
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
