@@ -162,6 +162,8 @@ public class Manager
 
     public async Task UpdateAccountBalance(Guid accountGuid, decimal newAccountBalance)
     {
+        if (newAccountBalance < 0) { throw new AccountMinimumAmountViolation(); }
+
         using (var session = _documentStore.LightweightSession())
         {
             // TODO: Ensure aggregate exists

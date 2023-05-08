@@ -773,13 +773,10 @@ this.FeatureBackground();
         [NUnit.Framework.DescriptionAttribute("New account balance with no transactions sets pool to that new balance")]
         [NUnit.Framework.TestCaseAttribute("-1", "0", null)]
         [NUnit.Framework.TestCaseAttribute("-1", "100", null)]
-        [NUnit.Framework.TestCaseAttribute("-1", "-5", null)]
         [NUnit.Framework.TestCaseAttribute("0", "0", null)]
         [NUnit.Framework.TestCaseAttribute("0", "100", null)]
-        [NUnit.Framework.TestCaseAttribute("0", "-5", null)]
         [NUnit.Framework.TestCaseAttribute("1", "0", null)]
         [NUnit.Framework.TestCaseAttribute("1", "100", null)]
-        [NUnit.Framework.TestCaseAttribute("1", "-5", null)]
         public void NewAccountBalanceWithNoTransactionsSetsPoolToThatNewBalance(string previousPoolAmount, string newAccountBalance, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -831,7 +828,7 @@ this.FeatureBackground();
             argumentsOfScenario.Add("newBalance", newBalance);
             argumentsOfScenario.Add("expectedPoolAmount", expectedPoolAmount);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New Account Balance With Transactions", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 171
+#line 168
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -844,26 +841,59 @@ this.ScenarioInitialize(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line hidden
-#line 172
+#line 169
  testRunner.Given(string.Format("I have updated the account balance to ${0}", initialBalance), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 173
+#line 170
   testRunner.And("I have created a bucket called First", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 174
+#line 171
   testRunner.And("I have created a bucket called Second", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 175
+#line 172
   testRunner.And("I have emptied the pool into the buckets", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 176
+#line 173
  testRunner.When(string.Format("I update my account balance to ${0}", newBalance), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 177
+#line 174
   testRunner.And("I look at the account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 178
+#line 175
  testRunner.Then(string.Format("The amount in the pool should be ${0}", expectedPoolAmount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Can\'t set account balance to below 0")]
+        public void CantSetAccountBalanceToBelow0()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Can\'t set account balance to below 0", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 185
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 186
+ testRunner.When("I update my account balance to $-1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 187
+ testRunner.Then("an exception should be thrown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 188
+ testRunner.And("the error should indicate I can\'t set the account balance below $0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

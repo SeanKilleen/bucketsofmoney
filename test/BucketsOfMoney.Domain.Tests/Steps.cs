@@ -93,7 +93,14 @@ namespace BucketsOfMoney.Domain.Tests
         [When(@"I update my account balance to \$(.*)")]
         public async Task WhenIUpdateMyAccountBalanceTo(decimal newAccountBalance)
         {
-            await _manager.UpdateAccountBalance(_accountGuid, newAccountBalance);
+            try
+            {
+                await _manager.UpdateAccountBalance(_accountGuid, newAccountBalance);
+            }
+            catch (Exception ex)
+            {
+                CaptureException(ex);
+            }
         }
 
 
@@ -164,6 +171,12 @@ namespace BucketsOfMoney.Domain.Tests
         public void ThenTheAmountInThePoolShouldBe(decimal expectedPoolAmount)
         {
             _bomAccount.PoolAmount.Should().Be(expectedPoolAmount);
+        }
+
+        [Then(@"the error should indicate I can't set the account balance below \$(.*)")]
+        public void ThenTheErrorShouldIndicateICantSetTheAccountBalanceBelow(int p0)
+        {
+            _exception.Should().BeOfType<AccountMinimumAmountViolation>();
         }
 
     }

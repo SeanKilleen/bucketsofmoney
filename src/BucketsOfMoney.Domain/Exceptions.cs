@@ -8,4 +8,5 @@ namespace BucketsOfMoney.Domain
 {
     public class IngressStrategyMinimumAmountViolation : Exception { }
     public class IngressStrategyMaximumAmountViolation : Exception { }
+    public class AccountMinimumAmountViolation : Exception {}
 }

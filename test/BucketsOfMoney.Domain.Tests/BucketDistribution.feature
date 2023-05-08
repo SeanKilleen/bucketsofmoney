@@ -160,13 +160,10 @@ Examples:
 | previousPoolAmount | newAccountBalance |
 | -1                 | 0                 |
 | -1                 | 100               |
-| -1                 | -5                |
 | 0                  | 0                 |
 | 0                  | 100               |
-| 0                  | -5                |
 | 1                  | 0                 |
 | 1                  | 100               |
-| 1                  | -5                |
 
 Scenario: New Account Balance With Transactions
 	Given I have updated the account balance to $<initialBalance>
@@ -185,7 +182,11 @@ Examples:
 | 10             | 5          | -5                 |
 | 10             | 20         | 10                 |
 
-# TODO: Can't set account balance to below 0
+Scenario: Can't set account balance to below 0
+	When I update my account balance to $-1
+	Then an exception should be thrown
+	And the error should indicate I can't set the account balance below $0
+
 # TODO: Removing a bucket
 # TODO: Removing a bucket moves its funds back to the pool
 # TODO: Transfer between buckets
