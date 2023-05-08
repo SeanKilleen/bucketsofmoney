@@ -15,6 +15,7 @@ namespace BucketsOfMoney.Domain
         public string Name = string.Empty;
         public List<Bucket> Buckets { get; set; } = new List<Bucket>();
         public decimal PoolAmount { get; set; } = 0;
+        public decimal Balance => PoolAmount + Buckets.Sum(x=>x.Amount);
 
         public Guid Id { get; set; }
 
@@ -33,6 +34,11 @@ namespace BucketsOfMoney.Domain
         public void Apply(FundsAddedToPool evt)
         {
             this.PoolAmount += evt.Amount;
+        }
+
+        public void Apply(FundsRemovedFromPool evt)
+        {
+            this.PoolAmount -= evt.Amount;
         }
 
         public void Apply(PoolFundsTransferredIntoBucket evt)

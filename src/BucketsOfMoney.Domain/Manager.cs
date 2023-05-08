@@ -159,4 +159,29 @@ public class Manager
             await session.SaveChangesAsync();
         }
     }
+
+    public async Task UpdateAccountBalance(Guid accountGuid, decimal newAccountBalance)
+    {
+        using (var session = _documentStore.LightweightSession())
+        {
+            // TODO: Ensure aggregate exists
+            var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+
+            var existingBalance = aggregate.Balance;
+            var newBalance = newAccountBalance;
+
+            var balanceDifference = newBalance - existingBalance;
+
+            if (balanceDifference >= 0)
+            {
+                session.Events.Append(accountGuid, new FundsAddedToPool(balanceDifference));
+            }
+            else
+            {
+                session.Events.Append(accountGuid, new FundsRemovedFromPool(balanceDifference));
+;           }
+
+            await session.SaveChangesAsync();
+        }
+    }
 }

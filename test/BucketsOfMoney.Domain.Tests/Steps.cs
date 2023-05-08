@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.CodeAnalysis.CSharp;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 using Xunit.Sdk;
@@ -83,6 +84,13 @@ namespace BucketsOfMoney.Domain.Tests
             }
         }
 
+        [When(@"I update my account balance to \$(.*)")]
+        public async Task WhenIUpdateMyAccountBalanceTo(decimal newAccountBalance)
+        {
+            await _manager.UpdateAccountBalance(_accountGuid, newAccountBalance);
+        }
+
+
         private void CaptureException(Exception ex)
         {
             _outputHelper.WriteLine($"EXCEPTION: {ex.Message}. InnerException: {ex.InnerException?.Message}");
@@ -101,6 +109,13 @@ namespace BucketsOfMoney.Domain.Tests
             var bucket = _bomAccount.Buckets.Single(x => x.Name == bucketName);
             bucket.Amount.Should().Be(expectedTotal);
         }
+
+        [Then(@"the account balance should be \$(.*)")]
+        public void ThenTheAccountBalanceShouldBe(decimal expectedBalance)
+        {
+            _bomAccount.Balance.Should().Be(expectedBalance);
+        }
+
 
         [Then(@"the bucket (.*) should exist")]
         public void ThenTheBucketBucketAShouldExist(string expectedBucketName)

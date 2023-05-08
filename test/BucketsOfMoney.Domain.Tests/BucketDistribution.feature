@@ -93,7 +93,6 @@ Scenario: Set percentages at bucket level
 		And I have created a bucket called Home Repairs
 		And I have created a bucket called Emergency Fund
 		And Trip has a percentage ingress strategy of .10
-		# (so the other buckets split 90%, or 45% each)
 		And I have added $100 to the pool
 	When I empty the pool into the buckets
 		And I look at the account
@@ -124,9 +123,55 @@ Scenario: Can't set an ingress to less than zero (multiple buckets)
 	Then an exception should be thrown
 		And the error should indicate I can't set an ingress strategy below 0%
 
+Scenario: Account Balance When Only Pool Has Funds
+	Given I have added $100 to the pool
+	When I look at the account
+	Then the account balance should be $100
+
+Scenario: Account Balance When All Funds are in Buckets
+	Given I have created a bucket called Bucket A
+		And I have created a bucket called Bucket B
+		And I have added $100 to the pool
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Bucket A should have a total of $50
+		And Bucket B should have a total of $50
+		And the account balance should be $100
+
+Scenario: Account Balance When Funds include Pool and Buckets
+	Given I have created a bucket called Bucket A
+		And I have created a bucket called Bucket B
+		And I have added $200 to the pool
+		And Bucket A has a ceiling of $50
+	When I empty the pool into the buckets
+		And I look at the account
+	Then Bucket A should have a total of $50
+		And Bucket B should have a total of $100
+		And The amount in the pool should be $50
+		And the account balance should be $200
+
+Scenario: New account balance with no transactions increases pool to that amount
+	Given I have added $<previousPoolAmount> to the pool
+	When I update my account balance to $<newAccountBalance>
+		And I look at the account
+	Then The amount in the pool should be $<newAccountBalance>
+
+Examples: 
+| previousPoolAmount | newAccountBalance |
+| -1                 | 0                 |
+| -1                 | 100               |
+| -1                 | -5                |
+| 0                  | 0                 |
+| 0                  | 100               |
+| 0                  | -5                |
+| 1                  | 0                 |
+| 1                  | 100               |
+| 1                  | -5                |
+
+
 # TODO: If 0% is leftover for buckets, those other accounts don't grow 
 # TODO: Set specific dollar amount on a given bucket
 # TODO: Re-arrange bucket order and process rules in order of bucket
-# TODO: By Default, remaining pool funds go to last bucket
-# TODO: Can set which bucket receives remaining pool funds
-	# TODO: Remaining funds bucket can't have a ceiling? (Or, goes back to pool?)
+# TODO: Transfer between buckets
+# TODO: Transfer back to pool
+# TODO: Empty pool vs "Reconcile pool" (since pool might be negative?) Refactor the language?
