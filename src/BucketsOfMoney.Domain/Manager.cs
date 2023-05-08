@@ -203,4 +203,21 @@ public class Manager
             await session.SaveChangesAsync();
         }
     }
+
+    public async Task TransferFunds(Guid accountGuid, string originatingBucket, string receivingBucket, decimal amountToTransfer)
+    {
+        // TODO: Ensure aggregate exists
+        // TODO Check originating bucket exists
+        // TODO Check receiving bucket exists
+        // TODO Check originating bucket has enough to cover transfer
+        // TODO Check ceiling amount in receiving bucket
+        using (var session = _documentStore.LightweightSession())
+        {
+            var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+
+            session.Events.Append(accountGuid, new BucketFundsTransferredToBucket(originatingBucket, receivingBucket, amountToTransfer));
+
+            await session.SaveChangesAsync();
+        }
+    }
 }

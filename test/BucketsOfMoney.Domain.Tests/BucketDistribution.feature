@@ -207,8 +207,19 @@ Scenario: Removing a bucket moves its funds back to the pool
 		And I look at the account
 	Then The amount in the pool should be $15
 
-# TODO: Transfer between buckets
+Scenario: Transfer between buckets
+	Given I have created a bucket called A
+		And I have created a bucket called B
+		And I have added $30 to the pool
+		And I have emptied the pool into the buckets
+	When I transfer $15 from B to A
+		And I look at the account
+	Then The amount in the pool should be $0
+		And the amount in bucket B should be $0
+		And the amount in bucket A should be $30
+
 # TODO: Transfer back to pool
+# TODO: Can't transfer more into a bucket than the bucket's ceiling
 # TODO: Can't transfer more into a bucket than the originating bucket has
 # TODO: Can't transfer more into the pool than the originating bucket has
 # TODO: Can't transfer more into a bucket than the pool has

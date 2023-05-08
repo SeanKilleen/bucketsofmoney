@@ -68,6 +68,15 @@ namespace BucketsOfMoney.Domain
             bucket.CeilingAmount = evt.CeilingAmount;
         }
 
+        public void Apply(BucketFundsTransferredToBucket evt)
+        {
+            var originatingBucket = Buckets.Single(x => x.Name == evt.OriginatingBucket);
+            var recipientBucket = Buckets.Single(x => x.Name == evt.ReceivingBucket);
+
+            originatingBucket.Amount -= evt.Amount;
+            recipientBucket.Amount += evt.Amount;
+        }
+
         public void Apply(BucketIngressStrategyChangedToPercentStrategy evt)
         {
             var bucket = this.Buckets.Single(x => x.Name == evt.BucketName);

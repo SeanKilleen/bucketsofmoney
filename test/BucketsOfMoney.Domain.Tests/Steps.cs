@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Runtime.InteropServices;
+using FluentAssertions;
 using Microsoft.CodeAnalysis.CSharp;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
@@ -120,6 +121,21 @@ namespace BucketsOfMoney.Domain.Tests
         {
             await _manager.EmptyPool(_accountGuid);
         }
+
+        [When(@"I transfer \$(.*) from (.*) to (.*)")]
+        public async Task WhenITransferFrom(decimal amountToTransfer, string originatingBucket, string receivingBucket)
+        {
+            await _manager.TransferFunds(_accountGuid, originatingBucket, receivingBucket, amountToTransfer);
+        }
+
+        [Then(@"the amount in bucket (.*) should be \$(.*)")]
+        public void ThenTheAmountInBucketBShouldBe(string bucketName, decimal expectedAmount)
+        {
+            var bucket = _bomAccount.Buckets.Single(x => x.Name == bucketName);
+            bucket.Amount.Should().Be(expectedAmount);
+        }
+
+
 
         [Then(@"(.*) should have a total of \$(.*)")]
         public void ThenBucketShouldHaveATotalOf(string bucketName, decimal expectedTotal)
