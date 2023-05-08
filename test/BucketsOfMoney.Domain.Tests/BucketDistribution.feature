@@ -168,10 +168,29 @@ Examples:
 | 1                  | 100               |
 | 1                  | -5                |
 
+Scenario: New Account Balance With Transactions
+	Given I have updated the account balance to $<initialBalance>
+		And I have created a bucket called First
+		And I have created a bucket called Second
+		And I have emptied the pool into the buckets
+	When I update my account balance to $<newBalance>
+		And I look at the account
+	Then The amount in the pool should be $<expectedPoolAmount>
 
-# TODO: If 0% is leftover for buckets, those other accounts don't grow 
-# TODO: Set specific dollar amount on a given bucket
-# TODO: Re-arrange bucket order and process rules in order of bucket
+Examples: 
+| initialBalance | newBalance | expectedPoolAmount |
+| 0              | 0          | 0                  |
+| 1.00           | 1.00       | 0                  |
+| 1.00           | 2.00       | 1.00               |
+| 10             | 5          | -5                 |
+| 10             | 20         | 10                 |
+
+# TODO: Can't set account balance to below 0
+# TODO: Removing a bucket
+# TODO: Removing a bucket moves its funds back to the pool
 # TODO: Transfer between buckets
 # TODO: Transfer back to pool
+
+# TODO: Set specific dollar amount on a given bucket
+# TODO: Re-arrange bucket order and process rules in order of bucket
 # TODO: Empty pool vs "Reconcile pool" (since pool might be negative?) Refactor the language?

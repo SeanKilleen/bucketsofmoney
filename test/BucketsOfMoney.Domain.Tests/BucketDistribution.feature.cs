@@ -815,6 +815,59 @@ this.FeatureBackground();
             }
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("New Account Balance With Transactions")]
+        [NUnit.Framework.TestCaseAttribute("0", "0", "0", null)]
+        [NUnit.Framework.TestCaseAttribute("1.00", "1.00", "0", null)]
+        [NUnit.Framework.TestCaseAttribute("1.00", "2.00", "1.00", null)]
+        [NUnit.Framework.TestCaseAttribute("10", "5", "-5", null)]
+        [NUnit.Framework.TestCaseAttribute("10", "20", "10", null)]
+        public void NewAccountBalanceWithTransactions(string initialBalance, string newBalance, string expectedPoolAmount, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("initialBalance", initialBalance);
+            argumentsOfScenario.Add("newBalance", newBalance);
+            argumentsOfScenario.Add("expectedPoolAmount", expectedPoolAmount);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New Account Balance With Transactions", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 171
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line hidden
+#line 172
+ testRunner.Given(string.Format("I have updated the account balance to ${0}", initialBalance), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 173
+  testRunner.And("I have created a bucket called First", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 174
+  testRunner.And("I have created a bucket called Second", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 175
+  testRunner.And("I have emptied the pool into the buckets", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 176
+ testRunner.When(string.Format("I update my account balance to ${0}", newBalance), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 177
+  testRunner.And("I look at the account", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 178
+ testRunner.Then(string.Format("The amount in the pool should be ${0}", expectedPoolAmount), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

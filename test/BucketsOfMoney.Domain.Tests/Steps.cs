@@ -33,6 +33,12 @@ namespace BucketsOfMoney.Domain.Tests
             await _manager.SetBucketPercentageIngressStrategy(_accountGuid, bucketName, percentageIngressStrategy);
         }
 
+        [Given(@"I have updated the account balance to \$(.*)")]
+        public async Task GivenIHaveUpdatedTheAccountBalanceTo(decimal newAccountBalance)
+        {
+            await WhenIUpdateMyAccountBalanceTo(newAccountBalance);
+        }
+
 
         [Given(@"I have added \$(.*) to the pool")]
         public async Task GivenIHaveAddedToThePool(decimal amountToAdd)
