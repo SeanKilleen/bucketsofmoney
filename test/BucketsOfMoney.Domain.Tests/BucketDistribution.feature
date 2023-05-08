@@ -191,6 +191,10 @@ Examples:
 # TODO: Transfer between buckets
 # TODO: Transfer back to pool
 
+# TODO: Egress rules - percentage
+# TODO: Egress rules - dollar value
+# TODO: Egress rules - combination of both
+
 # TODO: Set specific dollar amount on a given bucket
 # TODO: Re-arrange bucket order and process rules in order of bucket
 # TODO: Empty pool vs "Reconcile pool" (since pool might be negative?) Refactor the language?
