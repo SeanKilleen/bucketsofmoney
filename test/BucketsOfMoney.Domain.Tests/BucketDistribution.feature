@@ -187,7 +187,17 @@ Scenario: Can't set account balance to below 0
 	Then an exception should be thrown
 	And the error should indicate I can't set the account balance below $0
 
-# TODO: Removing a bucket
+Scenario: Removing a Bucket
+	Given I have created a bucket called A
+		And I have created a bucket called B
+		And I have created a bucket called C
+	When I remove bucket B
+		And I look at the account
+	Then the number of buckets for the account should be 2
+		And the bucket A should exist
+		And the bucket C should exist
+		And the bucket B should not exist
+
 # TODO: Removing a bucket moves its funds back to the pool
 # TODO: Transfer between buckets
 # TODO: Transfer back to pool

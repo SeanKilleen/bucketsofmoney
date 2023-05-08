@@ -103,6 +103,11 @@ namespace BucketsOfMoney.Domain.Tests
             }
         }
 
+        [When(@"I remove bucket (.*)")]
+        public async Task WhenIRemoveBucket(string bucketToRemove)
+        {
+            await _manager.RemoveBucket(_accountGuid, bucketToRemove);
+        }
 
         private void CaptureException(Exception ex)
         {
@@ -135,6 +140,13 @@ namespace BucketsOfMoney.Domain.Tests
         {
             _bomAccount.Buckets.Should().Contain(bucket => bucket.Name == expectedBucketName);
         }
+
+        [Then(@"the bucket (.*) should not exist")]
+        public void ThenTheBucketShouldNotExist(string bucketName)
+        {
+            _bomAccount.Buckets.Should().NotContain(bucket => bucket.Name == bucketName);
+        }
+
 
         [Then(@"the account name should be (.*)")]
         public void ThenTheAccountNameShouldBe(string expectedAccountName)

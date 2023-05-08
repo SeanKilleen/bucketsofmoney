@@ -186,4 +186,18 @@ public class Manager
             await session.SaveChangesAsync();
         }
     }
+
+    public async Task RemoveBucket(Guid accountGuid, string bucketToRemove)
+    {
+        using (var session = _documentStore.LightweightSession())
+        {
+            // TODO: Ensure aggregate exists
+            // TODO: Check that bucket exists to remove
+            var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+
+            session.Events.Append(accountGuid, new BucketRemoved(bucketToRemove));
+            
+            await session.SaveChangesAsync();
+        }
+    }
 }
