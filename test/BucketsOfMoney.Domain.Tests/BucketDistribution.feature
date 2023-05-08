@@ -209,6 +209,9 @@ Scenario: Removing a bucket moves its funds back to the pool
 
 # TODO: Transfer between buckets
 # TODO: Transfer back to pool
+# TODO: Can't transfer more into a bucket than the originating bucket has
+# TODO: Can't transfer more into the pool than the originating bucket has
+# TODO: Can't transfer more into a bucket than the pool has
 
 # TODO: Egress rules - percentage
 # TODO: Egress rules - dollar value
