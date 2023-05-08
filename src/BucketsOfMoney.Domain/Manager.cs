@@ -132,7 +132,7 @@ public class Manager
     {
         if (proposedPercentage < 0)
         {
-            throw new Exception("can't set an ingress strategy below 0%");
+            throw new IngressStrategyMinimumAmountViolation();
         }
 
         // TODO: Ensure bucket exists
@@ -149,7 +149,7 @@ public class Manager
 
             if (sumOfIngressPercentages > 1)
             {
-                throw new Exception("Operation aborted; percentages would exceed 100%");
+                throw new IngressStrategyMaximumAmountViolation();
             }
 
             var evt = new BucketIngressStrategyChangedToPercentStrategy(bucketName, proposedPercentage);
