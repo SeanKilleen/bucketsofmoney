@@ -218,7 +218,6 @@ Scenario: Transfer between buckets
 		And the amount in bucket B should be $0
 		And the amount in bucket A should be $30
 
-
 Scenario: Transfer back to pool
 	Given I have created a bucket called A
 		And I have created a bucket called B
@@ -235,10 +234,11 @@ Scenario: Transfer back to pool
 # TODO: Can't transfer more into the pool than the originating bucket has
 # TODO: Can't transfer more into a bucket than the pool has
 
+# TODO: Set specific dollar amount on a given bucket
+# TODO: Re-arrange bucket order and process rules in order of bucket
+# TODO: Empty pool vs "Reconcile pool" (since pool might be negative?) Refactor the language?
+
 # TODO: Egress rules - percentage
 # TODO: Egress rules - dollar value
 # TODO: Egress rules - combination of both
 
-# TODO: Set specific dollar amount on a given bucket
-# TODO: Re-arrange bucket order and process rules in order of bucket
-# TODO: Empty pool vs "Reconcile pool" (since pool might be negative?) Refactor the language?
