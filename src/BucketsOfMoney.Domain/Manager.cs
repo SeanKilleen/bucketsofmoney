@@ -220,4 +220,18 @@ public class Manager
             await session.SaveChangesAsync();
         }
     }
+
+    public async Task TransferToPool(Guid accountGuid, string originatingBucket, decimal amountToTransfer)
+    {
+        // TODO Ensure bucket exists
+        // TODO Ensure bucket has funds to transfer
+        using (var session = _documentStore.LightweightSession())
+        {
+            var aggregate = session.Events.AggregateStream<BOMAccount>(accountGuid);
+
+            session.Events.Append(accountGuid, new BucketFundsTransferredIntoPool(originatingBucket, amountToTransfer));
+
+            await session.SaveChangesAsync();
+        }
+    }
 }

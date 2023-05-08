@@ -128,6 +128,12 @@ namespace BucketsOfMoney.Domain.Tests
             await _manager.TransferFunds(_accountGuid, originatingBucket, receivingBucket, amountToTransfer);
         }
 
+        [When(@"I transfer \$(.*) back into the pool from (.*)")]
+        public async Task WhenITransferFromBackToThePool(decimal amountToTransfer, string originatingBucket)
+        {
+            await _manager.TransferToPool(_accountGuid, originatingBucket, amountToTransfer);
+        }
+
         [Then(@"the amount in bucket (.*) should be \$(.*)")]
         public void ThenTheAmountInBucketBShouldBe(string bucketName, decimal expectedAmount)
         {
